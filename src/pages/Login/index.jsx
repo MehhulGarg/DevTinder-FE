@@ -1,11 +1,20 @@
 import { useState } from "react";
+import { login } from "../../api";
+import { useDispatch } from "react-redux";
+import { addUser } from "../../store/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [emailId, setEmailId] = useState("");
     const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const handleLogin = () =>{
+    const handleLogin = async () =>{
         console.log('inside handle login');
+        const res = await login(emailId, password);
+        dispatch(addUser(res.data));
+        navigate("/");
     }
   return (
     <div className="flex justify-center my-10">
